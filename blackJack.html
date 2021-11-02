@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Blackjack </title>
+    <link rel= "stylesheet"  href="blackjack.css">
+</head>
+<!-- Body -->
+<body>
+
+    <h1> Blackjack </h1>
+    <p id="message-el"> Want to play a round? </p>
+    <p id="cards-el"> Cards: </p>
+    <p id="sum-el"> Sum: </p>
+    <button onclick = " startgame() "> START GAME </button>
+    <button onclick = " newcard() "> NEW CARD </button> 
+    <p id="player-el"></p>
+
+<!-- script -->
+<script>
+
+    let cards = []
+    let sum = 0 
+    let hasblackjack = false
+    let isAlive = false
+    let message = ""
+    
+    let messageEl = document.getElementById("message-el");
+    let sumEl = document.getElementById("sum-el")
+    let cardsEl=document.getElementById("cards-el")
+    let player = {
+        name:"Per",
+        chips: 145
+
+    }
+    let playerEl = document.getElementById("player-el")
+    playerEl.textContent = player.name + " :$ " + player.chips
+    
+    function getrandomcard(){
+        let randomnumber = Math.floor( Math.random()*13) + 1
+        if( randomnumber > 10)
+        return 10
+        else if( randomnumber === 1)
+        return 11
+        else
+        return randomnumber
+        
+    }
+    
+    function startgame()
+    {   isAlive = true
+        let firstCard = getrandomcard()
+        let secondCard = getrandomcard()
+        cards = [ firstCard , secondCard ]
+        sum = firstCard + secondCard
+
+
+        renderGame()
+    }
+    function renderGame()
+    {
+        cardsEl.textContent = " Cards: " 
+         for (let i=0;i<cards.length;i++)
+         {
+             cardsEl.textContent += cards[i] + " "
+         }   
+        sumEl.textContent = " Sum: " + sum
+        if (sum<21){
+        message = "Do You want to draw a new card?"
+        }
+
+        else if (sum==21) {
+        message = " Wohoo! You've got the Blackjack! "
+        hasblackjack = true        
+        }
+
+        else{
+        message = " You're Out of the game! "
+        isAlive = false 
+        }
+
+    messageEl.textContent = message 
+    }
+    function newcard()
+    {   
+        if(isAlive ===true && hasblackjack ===false){
+        console.log("working")
+        let card = getrandomcard()
+        sum += card
+        cards.push(card)
+        console.log(cards)
+        renderGame()
+        }
+    }
+   
+
+
+</script>
+
+</body>
+
+</html>
